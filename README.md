@@ -1,3 +1,66 @@
+# Shepherd OS
+
+A modern sheep farm management dashboard built with Next.js, TypeScript, Tailwind CSS, and PostgreSQL.
+
+## Features
+
+- Sheep registration and overview
+- Health status tracking
+- Weight, age, and location management
+- Task planning for farm operations
+- PostgreSQL-ready data model for future growth
+- Mobile-friendly dashboard
+
+## Tech stack
+
+- Next.js 16
+- TypeScript
+- Tailwind CSS
+- Prisma ORM
+- PostgreSQL
+
+## Setup
+
+1. Install PostgreSQL on your PC.
+2. Create a database called `sheepfarm`.
+3. Update `.env` with your PostgreSQL connection string.
+
+Example:
+
+```env
+DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@192.168.1.20:5432/sheepfarm?schema=public"
+```
+
+4. Generate Prisma client:
+
+```bash
+npx prisma generate
+```
+
+5. Push the schema to PostgreSQL:
+
+```bash
+npx prisma db push
+```
+
+6. Seed sample sheep data:
+
+```bash
+npm run db:seed
+```
+
+7. Start the app:
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000
+
+## Important note
+
+The app is set up to work with PostgreSQL on your PC, while the web app runs on another laptop on the same local network.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

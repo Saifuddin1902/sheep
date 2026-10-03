@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SheepStatus {
+  HEALTHY
+  MONITORING
+  CRITICAL
+}
+
+enum SheepSex {
+  EWE
+  RAM
+  LAMB
+}
+
+model Sheep {
+  id             Int          @id @default(autoincrement())
+  tagNumber      String       @unique
+  name           String
+  breed          String
+  sex            SheepSex
+  ageMonths      Int
+  weightKg       Float?
+  status         SheepStatus  @default(HEALTHY)
+  location       String
+  lastHealthCheck DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  healthChecks   HealthCheck[]
+  treatments     Treatment[]
+}
+
+model HealthCheck {
+  id            Int      @id @default(autoincrement())
+  sheepId       Int
+  sheep         Sheep    @relation(fields: [sheepId], references: [id], onDelete: Cascade)
+  checkDate     DateTime @default(now())
+  notes         String?
+  weightKg      Float?
+  status        SheepStatus
+  nextCheckDate DateTime?
+}
+
+model Treatment {
+  id        Int      @id @default(autoincrement())
+  sheepId   Int
+  sheep     Sheep    @relation(fields: [sheepId], references: [id], onDelete: Cascade)
+  title     String
+  details   String?
+  date      DateTime @default(now())
+}
+
+model FarmTask {
+  id        Int      @id @default(autoincrement())
+  title     String
+  detail    String
+  priority  String
+  status    String   @default("Open")
+  dueDate   DateTime?
+  createdAt DateTime @default(now())
+}
